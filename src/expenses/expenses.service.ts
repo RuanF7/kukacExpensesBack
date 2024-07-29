@@ -12,6 +12,7 @@ export class ExpensesService {
     amount: number;
     userId: string;
   }): Promise<Expense> {
+    console.log('Creating Expense with data:', data);
     const expenseData: Prisma.ExpenseCreateInput = {
       name: data.name,
       date: new Date(data.date),

@@ -29,6 +29,10 @@ export class AuthService {
   async register(user: any) {
     const newUser = await this.usersService.create(user);
     const { password, ...result } = newUser;
-    return result;
+    const payload = { email: newUser.email, sub: newUser.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+      user: result,
+    };
   }
 }

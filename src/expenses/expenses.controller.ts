@@ -6,11 +6,15 @@ import {
   Put,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { Expense as ExpenseModel } from '@prisma/client';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('expenses')
+@UseGuards(AuthGuard('jwt'))
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
@@ -21,10 +25,11 @@ export class ExpensesController {
       name: string;
       date: string;
       amount: number;
-      userId: string;
     },
+    @Req() req,
   ): Promise<ExpenseModel> {
-    return this.expensesService.create(expenseData);
+    const userId = req.user.userId;
+    return this.expensesService.create({ ...expenseData, userId });
   }
 
   @Get()

@@ -6,11 +6,15 @@ import {
   Put,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { IncomesService } from './incomes.service';
 import { Income as IncomeModel } from '@prisma/client';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('incomes')
+@UseGuards(AuthGuard('jwt'))
 export class IncomesController {
   constructor(private readonly incomesService: IncomesService) {}
 
@@ -21,10 +25,11 @@ export class IncomesController {
       name: string;
       date: string;
       amount: number;
-      userId: string;
     },
+    @Req() req,
   ): Promise<IncomeModel> {
-    return this.incomesService.create(incomeData);
+    const userId = req.user.userId;
+    return this.incomesService.create({ ...incomeData, userId });
   }
 
   @Get()

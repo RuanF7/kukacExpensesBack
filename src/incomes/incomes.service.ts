@@ -12,6 +12,7 @@ export class IncomesService {
     amount: number;
     userId: string;
   }): Promise<Income> {
+    console.log('Creating Income with data:', data);
     const incomeData: Prisma.IncomeCreateInput = {
       name: data.name,
       date: new Date(data.date),
