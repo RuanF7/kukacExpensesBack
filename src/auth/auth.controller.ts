@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -8,7 +15,14 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
-    return this.authService.login(loginDto);
+    const user = await this.authService.validateUser(
+      loginDto.email,
+      loginDto.password,
+    );
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+    return this.authService.login(user);
   }
 
   @Post('register')

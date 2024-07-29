@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User as UserModel } from '@prisma/client';
@@ -37,5 +38,13 @@ export class UsersController {
   @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<UserModel> {
     return this.usersService.remove(id);
+  }
+
+  @Get('exists')
+  async checkIfUserExists(
+    @Query('email') email: string,
+  ): Promise<{ exists: boolean }> {
+    const user = await this.usersService.findOne(email);
+    return { exists: !!user };
   }
 }
