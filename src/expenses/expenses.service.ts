@@ -24,13 +24,16 @@ export class ExpensesService {
     return this.prisma.expense.create({ data: expenseData });
   }
 
-  async findAll(): Promise<Expense[]> {
-    return this.prisma.expense.findMany();
+  async findAllByUserId(userId: string): Promise<Expense[]> {
+    return this.prisma.expense.findMany({
+      where: { userId: userId },
+    });
   }
 
   async update(
     id: number,
     data: { name?: string; date?: string; amount?: number },
+    userId: string,
   ): Promise<Expense> {
     const updateData: Prisma.ExpenseUpdateInput = {
       ...data,
@@ -39,12 +42,13 @@ export class ExpensesService {
     return this.prisma.expense.update({
       where: { id: id.toString() },
       data: updateData,
+      ...(userId && { where: { id: id.toString(), userId: userId } }),
     });
   }
 
-  async remove(id: number): Promise<Expense> {
+  async remove(id: number, userId: string): Promise<Expense> {
     return this.prisma.expense.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString(), userId: userId },
     });
   }
 }

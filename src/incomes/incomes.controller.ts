@@ -33,20 +33,27 @@ export class IncomesController {
   }
 
   @Get()
-  async getAllIncomes(): Promise<IncomeModel[]> {
-    return this.incomesService.findAll();
+  async getAllIncomes(@Req() req): Promise<IncomeModel[]> {
+    const userId = req.user.userId;
+    return this.incomesService.findAllByUserId(userId);
   }
 
   @Put(':id')
   async updateIncome(
     @Param('id') id: string,
     @Body() incomeData: { name?: string; date?: string; amount?: number },
+    @Req() req,
   ): Promise<IncomeModel> {
-    return this.incomesService.update(Number(id), incomeData);
+    const userId = req.user.userId;
+    return this.incomesService.update(Number(id), incomeData, userId);
   }
 
   @Delete(':id')
-  async deleteIncome(@Param('id') id: string): Promise<IncomeModel> {
-    return this.incomesService.remove(Number(id));
+  async deleteIncome(
+    @Param('id') id: string,
+    @Req() req,
+  ): Promise<IncomeModel> {
+    const userId = req.user.userId;
+    return this.incomesService.remove(Number(id), userId);
   }
 }

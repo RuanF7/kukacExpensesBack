@@ -24,13 +24,16 @@ export class IncomesService {
     return this.prisma.income.create({ data: incomeData });
   }
 
-  async findAll(): Promise<Income[]> {
-    return this.prisma.income.findMany();
+  async findAllByUserId(userId: string): Promise<Income[]> {
+    return this.prisma.income.findMany({
+      where: { userId: userId },
+    });
   }
 
   async update(
     id: number,
     data: { name?: string; date?: string; amount?: number },
+    userId: string,
   ): Promise<Income> {
     const updateData: Prisma.IncomeUpdateInput = {
       ...data,
@@ -39,12 +42,13 @@ export class IncomesService {
     return this.prisma.income.update({
       where: { id: id.toString() },
       data: updateData,
+      ...(userId && { where: { id: id.toString(), userId: userId } }),
     });
   }
 
-  async remove(id: number): Promise<Income> {
+  async remove(id: number, userId: string): Promise<Income> {
     return this.prisma.income.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString(), userId: userId },
     });
   }
 }
