@@ -31,24 +31,22 @@ export class ExpensesService {
   }
 
   async update(
-    id: number,
+    id: string,
     data: { name?: string; date?: string; amount?: number },
-    userId: string,
   ): Promise<Expense> {
     const updateData: Prisma.ExpenseUpdateInput = {
       ...data,
       date: data.date ? new Date(data.date) : undefined,
     };
     return this.prisma.expense.update({
-      where: { id: id.toString() },
+      where: { id: id },
       data: updateData,
-      ...(userId && { where: { id: id.toString(), userId: userId } }),
     });
   }
 
-  async remove(id: number, userId: string): Promise<Expense> {
+  async remove(id: string, userId: string): Promise<Expense> {
     return this.prisma.expense.delete({
-      where: { id: id.toString(), userId: userId },
+      where: { id: id, userId: userId },
     });
   }
 }

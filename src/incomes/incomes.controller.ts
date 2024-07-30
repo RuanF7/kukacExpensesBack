@@ -45,7 +45,8 @@ export class IncomesController {
     @Req() req,
   ): Promise<IncomeModel> {
     const userId = req.user.userId;
-    return this.incomesService.update(Number(id), incomeData, userId);
+    const updatedIncomeData = { ...incomeData, userId };
+    return this.incomesService.update(id, updatedIncomeData);
   }
 
   @Delete(':id')
@@ -54,6 +55,6 @@ export class IncomesController {
     @Req() req,
   ): Promise<IncomeModel> {
     const userId = req.user.userId;
-    return this.incomesService.remove(Number(id), userId);
+    return this.incomesService.remove(id, userId);
   }
 }

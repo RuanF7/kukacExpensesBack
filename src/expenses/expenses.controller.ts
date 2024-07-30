@@ -45,7 +45,8 @@ export class ExpensesController {
     @Req() req,
   ): Promise<ExpenseModel> {
     const userId = req.user.userId;
-    return this.expensesService.update(Number(id), expenseData, userId);
+    const updatedExpenseData = { ...expenseData, userId };
+    return this.expensesService.update(id, updatedExpenseData);
   }
 
   @Delete(':id')
@@ -54,6 +55,6 @@ export class ExpensesController {
     @Req() req,
   ): Promise<ExpenseModel> {
     const userId = req.user.userId;
-    return this.expensesService.remove(Number(id), userId);
+    return this.expensesService.remove(id, userId);
   }
 }
