@@ -40,6 +40,13 @@ Este é o backend para o projeto Expense Control, construído com NestJS, Prisma
 - Node.js (versão 18 ou superior)
 - Docker (opcional, para execução em contêiner)
 
+## Endpoints
+
+- POST /auth/register: Registro de usuário.
+- POST /auth/login: Login do usuário.
+- GET /users/me: Obter informações do usuário autenticado.
+- PUT /users/ : Atualizar informações do usuário.
+
 ## Instalação
 
 1. Clone o repositório:
@@ -47,6 +54,7 @@ Este é o backend para o projeto Expense Control, construído com NestJS, Prisma
    ```bash
    git clone https://github.com/RuanF7/kukacExpensesBack
    cd expenses-kukac-project
+   
 2. Instale as dependências:
 
    yarn install
@@ -73,10 +81,5 @@ Ou, se estiver usando Docker:
   ```bash
   docker-compose up --build
 
-### Endpoints
-POST /auth/register: Registro de usuário.
-POST /auth/login: Login do usuário.
-GET /users/me: Obter informações do usuário autenticado.
-PUT /users/
-: Atualizar informações do usuário.
+
 
