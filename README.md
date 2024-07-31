@@ -24,50 +24,59 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# Backend do Projeto Expense Control
 
-## Installation
+Este é o backend para o projeto Expense Control, construído com NestJS, Prisma e MongoDB. Ele fornece a API para gerenciamento de despesas e rendas.
 
-```bash
-$ yarn install
-```
+## Tecnologias Utilizadas
 
-## Running the app
+- NestJS
+- Prisma ORM
+- MongoDB
+- Docker
 
-```bash
-# development
-$ yarn run start
+## Requisitos
 
-# watch mode
-$ yarn run start:dev
+- Node.js (versão 18 ou superior)
+- Docker (opcional, para execução em contêiner)
 
-# production mode
-$ yarn run start:prod
-```
+## Instalação
 
-## Test
+1. Clone o repositório:
 
-```bash
-# unit tests
-$ yarn run test
+   ```bash
+   git clone https://github.com/RuanF7/kukacExpensesBack
+   cd expenses-kukac-project
+2. Instale as dependências:
 
-# e2e tests
-$ yarn run test:e2e
+   yarn install
 
-# test coverage
-$ yarn run test:cov
-```
+3. Configure o arquivo .env com suas variáveis de ambiente.
+   Exemplo:
 
-## Support
+   ```bash
+    DATABASE_URL=mongodb://localhost:27017/mydatabase
+    JWT_SECRET=your_jwt_secret  
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+4. Execute as migrações do Prisma:
+   
+   ```bash
+   npx prisma migrate deploy
 
-## Stay in touch
+5. Inicie o servidor:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   ```bash
+   yarn start
 
-## License
+ Ou, se estiver usando Docker:
 
-Nest is [MIT licensed](LICENSE).
+    ```bash
+    docker-compose up --build
+
+### Endpoints
+POST /auth/register: Registro de usuário.
+POST /auth/login: Login do usuário.
+GET /users/me: Obter informações do usuário autenticado.
+PUT /users/
+: Atualizar informações do usuário.
+
