@@ -68,10 +68,10 @@ Este é o backend para o projeto Expense Control, construído com NestJS, Prisma
    ```bash
    yarn start
 
- Ou, se estiver usando Docker:
+Ou, se estiver usando Docker:
 
-    ```bash
-    docker-compose up --build
+  ```bash
+  docker-compose up --build
 
 ### Endpoints
 POST /auth/register: Registro de usuário.
