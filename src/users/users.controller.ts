@@ -7,9 +7,13 @@ import {
   Param,
   Delete,
   Query,
+  Request,
+  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User as UserModel } from '@prisma/client';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
@@ -46,5 +50,16 @@ export class UsersController {
   ): Promise<{ exists: boolean }> {
     const user = await this.usersService.findOne(email);
     return { exists: !!user };
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  async getProfile(@Request() req): Promise<UserModel> {
+    console.log('User from request:', req.user);
+    const userId = req.user.userId;
+    if (!userId) {
+      throw new UnauthorizedException('User ID is missing from the request');
+    }
+    return this.usersService.findOneById(userId);
   }
 }

@@ -27,9 +27,18 @@ export class UsersService {
     });
   }
 
+  async findOneById(id: string): Promise<User | undefined> {
+    return this.prisma.user.findUnique({
+      where: { id },
+    });
+  }
+
   async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
     return this.prisma.user.update({
-      where: { id: id.toString() },
+      where: { id: id },
       data,
     });
   }
